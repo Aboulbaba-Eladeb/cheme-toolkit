@@ -1,7 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
+// GitHub Pages serves the app from /cheme-toolkit/; set PAGES_BASE to change it (e.g. "/" for a custom domain).
 export default defineConfig({
+  base: process.env.PAGES_BASE ?? "./",
   plugins: [react()],
-})
+  build: { chunkSizeWarningLimit: 800 },
+});

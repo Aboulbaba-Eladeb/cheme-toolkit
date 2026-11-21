@@ -1,54 +1,70 @@
-# React + TypeScript + Vite
+# ChemE Toolkit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Chemical engineering calculations with units, and the worked solution behind every answer.**
+English and Arabic · works offline on phones · free and open source.
 
-Currently, two official plugins are available:
+**▶ Live app:** https://aboulbaba-eladeb.github.io/cheme-toolkit/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Pipe pressure drop: inputs with unit pickers, results and the step-by-step solution](docs/pipe-pressure-drop.jpg)
 
-## Expanding the ESLint configuration
+## Why
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Students reach for a calculator and get a number. This toolkit shows **how** the number was obtained: each tool lists the equation, substitutes your values (converted to SI) and walks to the answer, so it can be checked, cited in a report, or used to learn the method.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tools
+
+| Fluid flow | Heat transfer | Thermodynamics | Separations & reactions |
+|---|---|---|---|
+| Reynolds number | LMTD and exchanger area | Saturated steam table (IAPWS-IF97) | Isothermal flash (Rachford–Rice) |
+| Darcy friction factor (Colebrook) | Heat exchanger ε-NTU | Vapour pressure (Antoine, 15 compounds) | Arrhenius rate constant / activation energy |
+| Pipe pressure drop with fittings | Tube-side h (Gnielinski, Dittus–Boelter) | Ideal gas law and density | |
+| Pump power and head | Composite wall conduction | Psychrometrics (moist air) | |
+
+Plus a **unit calculator** for any expression: `2.5 bar * 30 L/min to kW`, `998 kg/m^3 * 1.5 m/s * 50 mm / (1 cP)`, `gasConstant * 298 K / (101.325 kPa) to L/mol`.
+
+### Features
+
+- **Every input in the units you use**: bar, psi, kPa, °C, °F, K, cP, Pa·s, L/min, US gpm, m³/h, BTU/h… Changing a unit converts the number, so the physical value stays the same.
+- **Worked solution** for every result, typeset with KaTeX, plus warnings when a correlation is used outside its range (transitional flow, extrapolated Antoine constants…).
+- **Share a calculation**: the address bar always holds your inputs, so "Copy link" reproduces the exact case.
+- **English / العربية** with a right-to-left layout (equations stay left-to-right), light and dark themes.
+- **Offline**: once opened, it keeps working without a connection and can be installed on a phone's home screen.
+
+![Isothermal flash with a component table and phase compositions](docs/flash.jpg)
+
+## Accuracy
+
+Every model is tested against published reference values (`npm test`, 115 tests):
+
+- **IAPWS-IF97** regions 1, 2 and 4 reproduce the official verification tables to 8 significant figures.
+- **Antoine** constants (Felder & Rousseau, Table B.4) are checked by recomputing each compound's normal boiling point.
+- Friction factor against the Moody chart; ε-NTU, LMTD and psychrometrics against textbook values; energy balances and round trips (k → Eₐ → k) for consistency.
+
+Results are for teaching and preliminary design: always check them against engineering judgement and the relevant design codes.
+
+## Run it locally
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm test         # 115 tests
+npm run build    # production build in dist/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Pushing to `main` rebuilds and publishes the live app (`.github/workflows/pages.yml`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Adding a tool
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+Each tool is one object in `src/tools/` with its inputs (dimension and default unit), optional choices or a table, and a `compute()` that receives SI values and returns results plus LaTeX steps. Add it to `src/tools/index.ts` and it appears on the home page, with unit pickers, sharing and both languages handled for you.
+
+## Built with
+
+React 19 · TypeScript · Vite · KaTeX · mathjs (unit calculator) · Vitest
+
+## Author
+
+Dr. Aboulbaba Eladeb, Chemical Engineering, Northern Border University · [eladebaboulbaba.com](https://eladebaboulbaba.com)
+
+## Licence
+
+[MIT](LICENSE)

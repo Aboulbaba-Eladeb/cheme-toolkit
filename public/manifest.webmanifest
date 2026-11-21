@@ -1,0 +1,11 @@
+{
+  "name": "ChemE Toolkit",
+  "short_name": "ChemE Toolkit",
+  "description": "Chemical engineering calculations with units and worked solutions.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f3ec",
+  "theme_color": "#163f3c",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
