@@ -3,7 +3,7 @@
 **Chemical engineering calculations with units, and the worked solution behind every answer.**
 English and Arabic · works offline on phones · free and open source.
 
-**▶ Live app:** https://aboulbaba-eladeb.github.io/cheme-toolkit/
+**▶ Live app:** https://cheme-toolkit.vercel.app/
 
 ![Pipe pressure drop: inputs with unit pickers, results and the step-by-step solution](docs/pipe-pressure-drop.jpg)
 
@@ -51,7 +51,7 @@ npm test         # 115 tests
 npm run build    # production build in dist/
 ```
 
-Pushing to `main` rebuilds and publishes the live app (`.github/workflows/pages.yml`).
+Pushing to `main` rebuilds and publishes the live app on Vercel.
 
 ### Adding a tool
 
